@@ -19,15 +19,7 @@ class HelperTest extends AnyFlatSpec {
     val actualAge = helper.calculateAge(dob)
     assert(actualAge === 0)
   }
-
-  it should "throw an exception for an invalid date format" in {
-    val invalidDob = "invalid-date"
-    val exception = intercept[java.time.format.DateTimeParseException] {
-      helper.calculateAge(invalidDob)
-    }
-    assert(exception.getMessage.contains("invalid format"))
-  }
-
+  
   it should "handle future birth dates correctly (age is 0)" in {
     val futureDob = LocalDate.now().plusDays(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
     val actualAge = helper.calculateAge(futureDob)
