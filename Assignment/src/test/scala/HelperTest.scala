@@ -2,7 +2,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class test extends AnyFlatSpec {
+class HelperTest extends AnyFlatSpec {
 
   val helper: Helper = new Helper {}
 
