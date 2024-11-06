@@ -4,6 +4,7 @@ import org.apache.flink.connector.jdbc.JdbcConnectionOptions.JdbcConnectionOptio
 import org.apache.flink.connector.jdbc.JdbcSink
 import org.apache.flink.streaming.api.functions.sink.SinkFunction
 import org.apache.flink.streaming.api.scala._
+import java.sql.PreparedStatement
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
@@ -34,7 +35,8 @@ trait Helper {
   def dbSink(dbConf: Map[String, String]): SinkFunction[CustomerDetails] = {
     // Define JDBC Sink to write to MySQL
     val jdbcSink = JdbcSink.sink[CustomerDetails](
-      "INSERT INTO processed_messages (name, address, date_of_birth, age) VALUES (?, ?, ?, ?)", (ps, t) => {
+      "INSERT INTO processed_messages (name, address, date_of_birth, age) VALUES (?, ?, ?, ?)",
+      (ps: PreparedStatement, t: CustomerDetails) => {
         ps.setString(1, t.person.name)
         ps.setString(2, t.person.address)
         ps.setDate(3, java.sql.Date.valueOf(LocalDate.parse(t.person.dateOfBirth)))
